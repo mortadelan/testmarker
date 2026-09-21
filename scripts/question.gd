@@ -8,3 +8,8 @@ extends Resource
 
 func is_correct() -> bool:
 	return selected == correct
+
+func parse_dict(save_dict: Dictionary):
+	correct = save_dict["correct"] as QuestionList.OPTIONS
+	ease = save_dict["ease"]
+	discrim = save_dict["discrim"]

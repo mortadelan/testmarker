@@ -2,7 +2,12 @@ class_name QuestionList
 extends Resource
 
 enum OPTIONS { A, B, C, D, E }
-@export var list : Array[Question] = []
+@export var list : Array[Question] = [ Question.new(), \
+	Question.new(), Question.new(), Question.new(), \
+	Question.new(), Question.new(), Question.new(), \
+	Question.new(), Question.new(), Question.new(), \
+	Question.new(), Question.new(), Question.new(), \
+	Question.new(), Question.new() ]
 
 func commit_selected():
 	if list.size() > 0:
@@ -14,7 +19,7 @@ func save() -> Dictionary:
 	if list.size() > 0:
 		for questioni in list.size():
 			var question : Dictionary
-			question.assign({"question" + str(questioni + 1) : {
+			question.assign({questioni : {
 				"correct" : list[questioni].correct,
 				"ease" : list[questioni].ease,
 				"discrim" : list[questioni].discrim
@@ -22,3 +27,8 @@ func save() -> Dictionary:
 			save_dict.merge(question)
 		return save_dict
 	return Dictionary() # empty dict
+
+func parse_dict(save_dict: Dictionary):
+	if list.size() > 0:
+		for questioni in list.size():
+			list[questioni].parse_dict(save_dict[str(questioni)])

@@ -2,7 +2,7 @@ class_name Test
 extends Resource
 
 @export var name : String
-@export var lists : Array[QuestionList]
+@export var lists : Array[QuestionList] = [ QuestionList.new() ]
 
 func save() -> Dictionary:
 	var save_dict = {
@@ -12,3 +12,7 @@ func save() -> Dictionary:
 		"question_list_1": lists[0].save()
 		}
 	return save_dict
+
+func parse_dict(save_dict: Dictionary):
+	name = save_dict["test_name"]
+	lists[0].parse_dict(save_dict["question_list_1"])
