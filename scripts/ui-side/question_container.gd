@@ -4,6 +4,7 @@ extends GridContainer
 @export var questions : QuestionList
 
 func _ready():
+	self.get_viewport().size_changed.connect(resize)
 	if questions != null:
 		for questioni in questions.list.size():
 			var question := QuestionItem.new()
@@ -25,3 +26,10 @@ func _re_ready():
 	for child in get_children():
 		child.queue_free()
 	_ready()
+
+func resize():
+	if get_child(0) != null:
+		var child := get_child(0)
+		var item_width = child.size.x
+		var available_width = self.get_window().size.x
+		self.columns = max(1, int(available_width / item_width))

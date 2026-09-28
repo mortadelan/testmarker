@@ -16,16 +16,24 @@ func commit_selected():
 		for question in list:
 			question.correct = question.selected
 
-func save() -> Dictionary:
+func save(log_flag := false) -> Dictionary:
 	var save_dict : Dictionary
 	if list.size() > 0:
 		for questioni in list.size():
 			var question : Dictionary
-			question.assign({questioni : {
-				"correct" : list[questioni].correct,
-				"ease" : list[questioni].ease,
-				"disc" : list[questioni].disc
-				}})
+			if log_flag:
+				question.assign({questioni : {
+					"selected" : list[questioni].selected,
+					"correct" : list[questioni].correct,
+					"ease" : list[questioni].ease,
+					"disc" : list[questioni].disc
+					}})
+			else:
+				question.assign({questioni : {
+					"correct" : list[questioni].correct,
+					"ease" : list[questioni].ease,
+					"disc" : list[questioni].disc
+					}})
 			save_dict.merge(question)
 		return save_dict
 	return Dictionary() # empty dict
