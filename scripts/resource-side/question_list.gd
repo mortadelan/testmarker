@@ -23,6 +23,8 @@ func save(log_flag := false) -> Dictionary:
 			var question : Dictionary
 			if log_flag:
 				question.assign({questioni : {
+					"correctness" : list[questioni].correct ==
+									list[questioni].selected,
 					"selected" : list[questioni].selected,
 					"correct" : list[questioni].correct,
 					"ease" : list[questioni].ease,

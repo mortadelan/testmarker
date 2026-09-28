@@ -16,7 +16,7 @@ func _ready():
 	if test != null:
 		self.label_settings = load("res://scripts/ui-side/label_settings.tres")
 		var new_test : bool
-		if questions == null && slider == null && save_button == null && set_button == null && check_button == null:
+		if questions == null && save_button == null && set_button == null && check_button == null:
 			questions = QuestionContainer.new()
 			save_button = Button.new()
 			set_button = Button.new()
