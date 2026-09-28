@@ -3,8 +3,6 @@
 [ext_resource type="LabelSettings" uid="uid://1llxhgpr8anr" path="res://scripts/ui-side/label_settings.tres" id="3_1bvp3"]
 [ext_resource type="Script" uid="uid://beedeqbw5l3m1" path="res://scripts/ui-side/test_container.gd" id="3_h2yge"]
 
-[sub_resource type="Theme" id="Theme_7dm0k"]
-
 [node name="main" type="Control" unique_id=1998072191]
 layout_mode = 3
 anchors_preset = 15
@@ -12,7 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_7dm0k")
+mouse_filter = 1
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=736381841]
 layout_mode = 1
@@ -21,6 +19,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 color = Color(0.19607843, 0.19607843, 0.19607843, 1)
 
 [node name="MenuBar" type="MenuBar" parent="." unique_id=172517886]
@@ -72,6 +71,7 @@ size_flags_vertical = 3
 
 [node name="TestContainer" type="Label" parent="ScrollContainer/TestDirContainer" unique_id=2040929819]
 layout_mode = 2
+mouse_filter = 1
 label_settings = ExtResource("3_1bvp3")
 script = ExtResource("3_h2yge")
 metadata/_custom_type_script = "uid://beedeqbw5l3m1"

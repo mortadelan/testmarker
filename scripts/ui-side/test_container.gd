@@ -11,6 +11,7 @@ var log_button : Button
 var time_button : Button
 var time_label : Label
 var stopwatch : Stopwatch
+var line_edit : LineEdit
 
 func _ready():
 	if test != null:
@@ -28,7 +29,6 @@ func _ready():
 			new_test = true
 		else:
 			new_test = false
-
 		questions.questions = test.lists[0]
 		questions.anchor_top = 0.25
 		questions.anchor_bottom = 0.25
@@ -106,7 +106,7 @@ func _ready():
 			set_button.pressed.connect(questions._on_set_button_pressed)
 			check_button.pressed.connect(questions._on_check_button_pressed)
 			log_button.pressed.connect(self._on_save_button_pressed.bind(true))
-			time_button.pressed.connect(stopwatch.start)
+			time_button.pressed.connect(self._on_time_button_pressed)
 		else:
 			questions._re_ready()
 	else:
@@ -116,6 +116,12 @@ func _ready():
 func _process(_delta: float):
 	if time_label != null && stopwatch != null && stopwatch.is_stopped() != true:
 		time_label.text = stopwatch.pretty_count
+
+func _on_time_button_pressed():
+	if stopwatch.toggle() == false:
+		time_button.text = "Start timer"
+	else:
+		time_button.text = "Stop timer"
 
 func _on_save_button_pressed(log_flag := false):
 	var file_dialog = FileDialog.new()
@@ -150,7 +156,7 @@ func _on_path_selected(path: String, log_flag := false):
 
 func free_dialogs():
 	for child in get_children():
-		if child is FileDialog:
+		if child is FileDialog or child is LineEdit:
 			child.queue_free()
 	print("Dialogs freed")
 
@@ -187,3 +193,33 @@ func _on_file_selected(path: String):
 	free_dialogs()
 	# this would have to be tweaked for multiple Tests and QuestionLists
 	self._ready()
+
+func _gui_input(event: InputEvent):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT && event.pressed && event.double_click :
+			_on_label_doubleclick()
+
+var temp = text
+
+func _on_label_doubleclick():
+	line_edit = LineEdit.new()
+	line_edit.text = text
+	line_edit.position = position
+	line_edit.add_theme_font_size_override("line_edit", 21)
+	add_child(line_edit)
+	temp = text
+	text = ""
+	line_edit.grab_focus()
+	line_edit.select_all()
+	line_edit.text_submitted.connect(_on_text_submitted)
+
+func _on_text_submitted(new_text: String):
+	text = new_text
+	test.name = text
+	free_dialogs()
+
+func _unhandled_input(event: InputEvent):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT && event.pressed && line_edit != null && \
+		not Rect2(Vector2(), size).has_point(get_local_mouse_position()):
+			_on_text_submitted(temp)

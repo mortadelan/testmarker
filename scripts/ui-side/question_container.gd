@@ -5,19 +5,12 @@ extends GridContainer
 
 func _ready():
 	self.get_viewport().size_changed.connect(resize)
-	if questions != null:
-		for questioni in questions.list.size():
-			var question := QuestionItem.new()
-			question.label = "Question " + str(questioni + 1)
-			question.question = questions.list[questioni]
-			add_child(question)
+	spawn_children()
+	resize()
 
 func _on_check_button_pressed():
 	for child in get_children():
 		child.check()
-
-func _on_h_slider_value_changed(value: float) -> void:
-	self.columns = int(value)
 
 func _on_set_button_pressed():
 	questions.commit_selected()
@@ -25,7 +18,15 @@ func _on_set_button_pressed():
 func _re_ready():
 	for child in get_children():
 		child.queue_free()
-	_ready()
+	spawn_children()
+
+func spawn_children():
+	if questions != null:
+		for questioni in questions.list.size():
+			var question := QuestionItem.new()
+			question.label = "Question " + str(questioni + 1)
+			question.question = questions.list[questioni]
+			add_child(question)
 
 func resize():
 	if get_child(0) != null:

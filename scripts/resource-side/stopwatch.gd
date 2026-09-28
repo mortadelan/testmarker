@@ -10,3 +10,11 @@ func _ready():
 func _process(_delta: float):
 	count = int(abs(time_left - wait_time))
 	pretty_count = str(count / 60).pad_zeros(2) + ":" + str(count % 60).pad_zeros(2)
+
+func toggle():
+	if not is_stopped():
+		stop()
+		return false
+	else:
+		start()
+		return true
