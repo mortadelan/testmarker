@@ -8,10 +8,11 @@ var save_button : Button
 var set_button : Button
 var check_button : Button
 var questions : QuestionContainer
+var log_button : Button
 
 func _ready():
 	if test != null:
-		self.label_settings = load("res://scripts/label_settings.tres")
+		self.label_settings = load("res://scripts/ui-side/label_settings.tres")
 		var new_test : bool
 		if questions == null && slider == null && save_button == null && set_button == null && check_button == null:
 			questions = QuestionContainer.new()
@@ -19,6 +20,7 @@ func _ready():
 			save_button = Button.new()
 			set_button = Button.new()
 			check_button = Button.new()
+			log_button = Button.new()
 			new_test = true
 		else:
 			new_test = false
@@ -71,6 +73,15 @@ func _ready():
 		check_button.offset_right = 0
 		check_button.offset_bottom = 5
 		check_button.grow_horizontal = GrowDirection.GROW_DIRECTION_BEGIN
+		#
+		#  - connect pressed() signal to correct test.lists[i]._on_check_button_pressed()
+		log_button.text = "Save log"
+		log_button.anchor_left = 1.0
+		log_button.anchor_right = 1.0
+		log_button.offset_top = 5
+		log_button.offset_right = -148
+		log_button.offset_bottom = 5
+		log_button.grow_horizontal = GrowDirection.GROW_DIRECTION_BEGIN
 		# then correctly populate children with:
 		# slider
 		# buttons
@@ -82,11 +93,13 @@ func _ready():
 			add_child(save_button)
 			add_child(set_button)
 			add_child(check_button)
+			add_child(log_button)
 			slider.value_changed.connect(questions._on_h_slider_value_changed)
 			questions._on_h_slider_value_changed(5)
 			save_button.pressed.connect(self._on_save_button_pressed)
 			set_button.pressed.connect(questions._on_set_button_pressed)
 			check_button.pressed.connect(questions._on_check_button_pressed)
+			log_button.pressed.connect(self._on_log_button_pressed)
 		else:
 			questions._re_ready()
 	else:
@@ -159,3 +172,6 @@ func _on_file_selected(path: String):
 	free_dialogs()
 	# this would have to be tweaked for multiple Tests and QuestionLists
 	self._ready()
+
+func _on_log_button_pressed():
+	pass

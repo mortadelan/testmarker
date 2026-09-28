@@ -1,7 +1,9 @@
 class_name QuestionList
 extends Resource
 
-enum OPTIONS { A, B, C, D, E }
+enum OPTIONS { A, B, C, D, E, NULL = 5 }
+enum EASE { VERY_EASY, EASY, AVERAGE, HARD, VERY_HARD }
+enum DISC { HIGH, VERY_GOOD, GOOD, AVERAGE, DEFICIENT }
 @export var list : Array[Question] = [ Question.new(), \
 	Question.new(), Question.new(), Question.new(), \
 	Question.new(), Question.new(), Question.new(), \
@@ -22,7 +24,7 @@ func save() -> Dictionary:
 			question.assign({questioni : {
 				"correct" : list[questioni].correct,
 				"ease" : list[questioni].ease,
-				"discrim" : list[questioni].discrim
+				"disc" : list[questioni].disc
 				}})
 			save_dict.merge(question)
 		return save_dict
